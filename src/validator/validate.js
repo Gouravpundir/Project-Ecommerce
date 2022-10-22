@@ -6,7 +6,9 @@ const isValid = function (value) {
   return false;
 };
 
-//-------------------valid password-------------------------//
+// VALIDATION USING REGEX
+
+//____________________valid password____________________//
 
 const isValidPassword = function (password) {
   password = password.trim();
@@ -15,51 +17,51 @@ const isValidPassword = function (password) {
   }
   return true;
 };
-//--------------------- email regex ----------------------//
+//____________________email regex____________________//
 
 const isVAlidEmail = function (email) {
   return /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email);
 };
 
-//---------------------- phone regex --------------------//
+//____________________phone regex____________________//
 
 const isValidPhone = function (phone) {
   return /^[6789]\d{9}$/.test(phone);
 };
 
-//----------------------- pincode -----------------------//
+//____________________pincode____________________//
 
 const isValidPincode = function (pincode) {
   return /^[1-9][0-9]{5}$/.test(pincode);
 };
 
-//-------------------valid body----------------------//
+//____________________valid body____________________//
 const isValidBody = function (x) {
   return Object.keys(x).length > 0;
 };
 
-//-------------------valid name------------------------//
+//____________________valid name____________________//
 const isValidName = function (name) {
   const nameRegex = /^[a-zA-Z]+$/;
   return nameRegex.test(name);
 };
 
-//-------------------valid object Id------------------//
+//____________________valid object ID____________________//
 const isValidObjectId = function (ObjectId) {
   return mongoose.Types.ObjectId.isValid(ObjectId);
 };
 
-//-----------------valid number--------------------//
+//_____________________valid number___________________//
 const isValidPrice = function (price) {
   return /^\d+(\.\d{1,2})?$/.test(price);
 };
 
-//-----------------valid size---------------------//
+//___________________valid size______________________//
 function isValidSize(size) {
   return ["S", "XS", "M", "X", "L", "XXL", "XL"].indexOf(size) !== -1;
 }
 
-//------------------valid status--------------------//
+//__________________valid status___________________//
 
 function isValidStatus(status) {
   return ["pending", "completed", "cancelled"].indexOf(status) !== -1;
