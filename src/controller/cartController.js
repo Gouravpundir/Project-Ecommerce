@@ -105,13 +105,13 @@ const createCart = async function (req, res) {
         _id: productId,
         isDeleted: false,
       });
-      const newTotalPrice = existCart.totalPrice + findProduct.price * 1;
+      const newTotalPrice = existCart.totalPrice + findProduct.price;
       let flag = 0;
       const items = existCart.items;
       for (let i = 0; i < items.length; i++) {
         if (items[i].productId.toString() === productId) {
           items[i].quantity = items[i].quantity + 1;
-          var newCartData = {
+          let newCartData = {
             items: items,
             totalPrice: newTotalPrice,
             quantity: 1,
@@ -238,7 +238,6 @@ const updateCart = async function (req, res) {
         .status(403)
         .send({ status: false, message: "not authorized to update this cart" });
 
-    console.log(loggedInUser, cartFind.userId.toString());
     //Make sure the user exist-
     const userFind = await userModel.findById(userId);
     if (!userFind)
@@ -305,7 +304,7 @@ const updateCart = async function (req, res) {
         });
     }
 
-    totalPrice = totalPrice.toFixed(2);
+    totalPrice = totalPrice;
     const updatedCart = await cartModel
       .findOneAndUpdate(
         { _id: cartId },
@@ -382,11 +381,7 @@ const deleteCartById = async (req, res) => {
       return res
         .status(403)
         .send({ status: false, message: `Not Authorised user` });
-    if (userCart.items.length === 0) {
-      return res
-        .status(400)
-        .send({ status: false, message: `Cart not created with this id` });
-    }
+
     if (!userCart) {
       return res.status(404).send({ status: false, msg: `No Cart Found!` });
     }

@@ -21,6 +21,12 @@ const createUser = async function (req, res) {
     const requestBody = req.body;
     let files = req.files;
 
+    if (!isValidBody(requestBody)) {
+      return res
+        .status(400)
+        .send({ status: false, message: "Request body can not be empty" });
+    }
+
     if (files.length === 0) {
       return res
         .status(400)
@@ -41,13 +47,6 @@ const createUser = async function (req, res) {
 
       requestBody.profileImage = imageUrl;
     }
-
-    if (!isValidBody(requestBody)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Request body can not be empty" });
-    }
-
     let { fname, lname, email, phone, password, address } = requestBody;
 
     if (!fname) {
@@ -56,10 +55,10 @@ const createUser = async function (req, res) {
         .send({ status: false, message: "Please provide fname" });
     }
     if (!isValidName(fname)) {
-        return res
-          .status(400)
-          .send({ status: false, message: "fname is in incorrect format..." });
-      }
+      return res
+        .status(400)
+        .send({ status: false, message: "fname is in incorrect format..." });
+    }
 
     if (!lname) {
       return res
@@ -110,7 +109,7 @@ const createUser = async function (req, res) {
       });
     }
 
-    //______________________encrypted password_______________________//
+    //______________________bcrypt password_______________________//
 
     const salt = await bcrypt.genSalt(10);
     const createPwd = await bcrypt.hash(password, salt);

@@ -70,13 +70,11 @@ const createOrder = async function (req, res) {
       return res.status(400).send({ status: false, message: "Cart is empty" });
     }
     if (cancellable) {
-      if (typeof (cancellable) !== "boolean") {
-        return res
-          .status(400)
-          .send({
-            status: false,
-            message: "cancellable should in boolean format",
-          });
+      if (typeof cancellable !== "boolean") {
+        return res.status(400).send({
+          status: false,
+          message: "cancellable should in boolean format",
+        });
       }
     }
     let totalQuantity1 = 0;
@@ -126,8 +124,6 @@ const updateOrder = async function (req, res) {
     if (!isValidObjectId(userId)) {
       return res.status(400).send({ status: false, message: "UserId inValid" });
     }
-
-    
 
     if (!isValid(orderId)) {
       return res
@@ -196,12 +192,12 @@ const updateOrder = async function (req, res) {
 
       return res.status(200).send({
         status: true,
-        message: "The Order is completed Successfully",
+        message: "Success",
         data: updateData,
       });
     } else if (status == "cancelled") {
       let updatedCancled = await orderModel.findOneAndUpdate(
-        { _id: orderId, cancellable: false },
+        { _id: orderId, cancellable: true },
         { $set: { status: status, isDeleted: true, deletedAt: new Date() } },
         { new: true }
       );

@@ -200,8 +200,10 @@ const getProduct = async (req, res) => {
     }
 
     if (priceGreaterThan && priceLessThan) {
-      if(!isValidPrice(priceGreaterThan && priceLessThan)){
-        return res.status(400).send({status:false, message:"Please provide valid price"})
+      if (!isValidPrice(priceGreaterThan && priceLessThan)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "Please provide valid price" });
       }
       filter.price = {
         $gt: Number(priceGreaterThan),
@@ -217,8 +219,6 @@ const getProduct = async (req, res) => {
       filter.price = { $lt: priceLessThan };
     }
 
-   
-
     if (priceSort) {
       if (priceSort != 1 && priceSort != -1) {
         return res.status(400).send({
@@ -229,11 +229,11 @@ const getProduct = async (req, res) => {
     }
 
     let sortAllValue = await productModel
-    .find(filter)
-    .sort({ price: priceSort });
+      .find(filter)
+      .sort({ price: priceSort });
 
-    if(sortAllValue.length==0){
-    return res
+    if (sortAllValue.length == 0) {
+      return res
         .status(404)
         .send({ status: false, message: "No Product found" });
     }
@@ -284,7 +284,7 @@ const updateProduct = async function (req, res) {
     let productId = req.params.productId;
     let files = req.files;
     let requestBody = req.body;
-    if (!isValidBody(requestBody)&&files.length==0) {
+    if (!isValidBody(requestBody)) {
       return res
         .status(400)
         .send({ status: false, message: "Please enter some data to update" });
